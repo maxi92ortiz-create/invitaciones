@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Invitaciones | Cadena Perpetua</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#0b0b0d;color:#fff;font-family:Arial,sans-serif}
+body{padding:24px 16px}
+.app{width:100%;max-width:520px;margin:auto;text-align:center}
+.marca{font-size:13px;letter-spacing:3px;color:#aaa;margin-top:15px}
+h1{font-size:35px;margin:8px 0;color:#f04fa5}
+h2{font-size:20px;margin:0 0 8px}
+.info{color:#bbb;line-height:1.5;margin-bottom:28px}
+.panel{background:#17171b;border:1px solid #2a2a30;border-radius:18px;padding:22px}
+label{display:block;text-align:left;font-weight:bold;margin-bottom:8px}
+input{width:100%;padding:17px;border-radius:11px;border:1px solid #444;background:#0e0e11;color:#fff;font-size:18px;outline:none}
+button{width:100%;border:0;border-radius:11px;background:#f04fa5;color:#fff;padding:18px;margin-top:14px;font-size:17px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.55;cursor:wait}
+.ayuda{font-size:13px;color:#888;margin:12px 0 0}
+#mensaje{margin-top:18px;line-height:1.5}
+.error{background:#351414;color:#ff9d9d;padding:15px;border-radius:10px}
+.ok{color:#64dc8b;font-weight:bold}
+.resultados{margin-top:24px;display:none}
+.ticket{background:#17171b;border:1px solid #333;border-radius:15px;padding:20px;margin:14px 0}
+.codigo{font-size:25px;font-weight:bold;color:#f04fa5;margin-bottom:12px}
+.descargar{display:block;text-decoration:none;background:#fff;color:#111;padding:15px;border-radius:10px;font-weight:bold}
+.aviso{margin-top:25px;color:#aaa;font-size:13px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="marca">INVITACIONES DIGITALES</div>
+  <h1>CADENA PERPETUA</h1>
+  <h2>San Juan</h2>
+  <div class="info">
+    Ingresá tu WhatsApp y recibí tus 2 invitaciones.<br>
+    Máximo 2 por número.
+  </div>
+
+  <div class="panel">
+    <label for="telefono">Número de WhatsApp</label>
+    <input id="telefono" type="tel" inputmode="numeric" placeholder="Ej: 2644123456" autocomplete="tel">
+    <button id="boton" onclick="retirar()">OBTENER MIS 2 INVITACIONES</button>
+    <div class="ayuda">Si ya las retiraste, te mostraremos las mismas nuevamente.</div>
+    <div id="mensaje"></div>
+  </div>
+
+  <div id="resultados" class="resultados">
+    <div class="ok">TUS INVITACIONES ESTÁN LISTAS</div>
+    <div id="tickets"></div>
+  </div>
+
+  <div class="aviso">
+    Cada QR es único y permite un solo ingreso.<br>
+    PROHIBIDA SU VENTA.
+  </div>
+</div>
+
+<script>
+// PEGAR ACÁ LA URL /exec DEL DESPLIEGUE ACTUALIZADO DE APPS SCRIPT.
+const URL_APP = "https://script.google.com/macros/s/AKfycbwqJQAoFyiz2GP7n05ATXvtPiCWChRzScyqCz3OlB1xmY14F5jKc8U898wcfZrZfQAMPQ/exec";
+
+async function retirar(){
+  const input=document.getElementById("telefono");
+  const boton=document.getElementById("boton");
+  const mensaje=document.getElementById("mensaje");
+  const resultados=document.getElementById("resultados");
+  const tickets=document.getElementById("tickets");
+
+  const telefono=String(input.value||"").replace(/\D/g,"");
+
+  resultados.style.display="none";
+  tickets.innerHTML="";
+  mensaje.innerHTML="";
+
+  if(telefono.length<8){
+    mensaje.innerHTML='<div class="error">Ingresá un número de WhatsApp válido.</div>';
+    return;
+  }
+
+  boton.disabled=true;
+  boton.textContent="ASIGNANDO INVITACIONES...";
+
+  try{
+    const url=URL_APP+"?modo=retirar&telefono="+encodeURIComponent(telefono)+"&_="+Date.now();
+    const r=await fetch(url,{method:"GET",redirect:"follow"});
+    const data=await r.json();
+
+    if(!data.ok){
+      throw new Error(data.error||"No se pudieron entregar las invitaciones.");
+    }
+
+    if(!data.invitaciones || data.invitaciones.length===0){
+      throw new Error("No se encontraron invitaciones.");
+    }
+
+    data.invitaciones.forEach((inv,i)=>{
+      const div=document.createElement("div");
+      div.className="ticket";
+      div.innerHTML=
+        '<div class="codigo">'+esc(inv.codigo)+'</div>'+
+        '<a class="descargar" href="'+escAttr(inv.url)+'" target="_blank" rel="noopener">'+
+        'DESCARGAR INVITACIÓN '+(i+1)+
+        '</a>';
+      tickets.appendChild(div);
+    });
+
+    mensaje.innerHTML=data.existente
+      ? '<div class="ok">Ya habías retirado tus invitaciones. Acá están nuevamente.</div>'
+      : '<div class="ok">¡Listo! Se reservaron 2 invitaciones para este número.</div>';
+
+    resultados.style.display="block";
+
+  }catch(e){
+    mensaje.innerHTML='<div class="error">'+esc(e.message||e)+'</div>';
+  }finally{
+    boton.disabled=false;
+    boton.textContent="OBTENER MIS 2 INVITACIONES";
+  }
+}
+
+function esc(s){
+  return String(s==null?"":s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+function escAttr(s){return esc(s);}
+</script>
+</body>
+</html>
