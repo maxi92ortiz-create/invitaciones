@@ -59,8 +59,18 @@ button:disabled{opacity:.55;cursor:wait}
 </div>
 
 <script>
-// PEGAR ACÁ LA URL /exec DEL DESPLIEGUE ACTUALIZADO DE APPS SCRIPT.
 const URL_APP = "https://script.google.com/macros/s/AKfycbwqJQAoFyiz2GP7n05ATXvtPiCWChRzScyqCz3OlB1xmY14F5jKc8U898wcfZrZfQAMPQ/exec";
+
+function obtenerDispositivo(){
+  let id=localStorage.getItem("cp_dispositivo");
+  if(!id){
+    const bytes=new Uint8Array(16);
+    crypto.getRandomValues(bytes);
+    id="DEV-"+Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("");
+    localStorage.setItem("cp_dispositivo",id);
+  }
+  return id;
+}
 
 async function retirar(){
   const input=document.getElementById("telefono");
@@ -84,7 +94,11 @@ async function retirar(){
   boton.textContent="ASIGNANDO INVITACIONES...";
 
   try{
-    const url=URL_APP+"?modo=retirar&telefono="+encodeURIComponent(telefono)+"&_="+Date.now();
+    const dispositivo=obtenerDispositivo();
+    const url=URL_APP+
+      "?modo=retirar&telefono="+encodeURIComponent(telefono)+
+      "&dispositivo="+encodeURIComponent(dispositivo)+
+      "&_="+Date.now();
     const r=await fetch(url,{method:"GET",redirect:"follow"});
     const data=await r.json();
 
