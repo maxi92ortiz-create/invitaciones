@@ -6,33 +6,64 @@
 <title>Invitaciones | Cadena Perpetua</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#0b0b0d;color:#fff;font-family:Arial,sans-serif}
-body{padding:24px 16px}
+html,body{margin:0;min-height:100%;color:#fff;font-family:Arial,sans-serif}
+body{
+  padding:24px 16px;
+  background:
+    linear-gradient(rgba(0,0,0,.72),rgba(0,0,0,.86)),
+    url("./fondo.jpg") center center/cover fixed no-repeat;
+}
 .app{width:100%;max-width:520px;margin:auto;text-align:center}
-.marca{font-size:13px;letter-spacing:3px;color:#aaa;margin-top:15px}
-h1{font-size:35px;margin:8px 0;color:#f04fa5}
-h2{font-size:20px;margin:0 0 8px}
-.info{color:#bbb;line-height:1.5;margin-bottom:28px}
-.panel{background:#17171b;border:1px solid #2a2a30;border-radius:18px;padding:22px}
+.logo{
+  width:min(360px,86vw);
+  max-height:210px;
+  object-fit:contain;
+  display:block;
+  margin:5px auto 10px;
+  mix-blend-mode:screen;
+}
+.marca{font-size:13px;letter-spacing:3px;color:#ddd;margin-top:8px}
+h2{font-size:21px;margin:8px 0 8px;text-shadow:0 2px 8px #000}
+.info{color:#eee;line-height:1.5;margin-bottom:28px;text-shadow:0 2px 8px #000}
+.panel{
+  background:rgba(18,18,22,.90);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 14px 40px rgba(0,0,0,.45);
+  backdrop-filter:blur(6px);
+}
 label{display:block;text-align:left;font-weight:bold;margin-bottom:8px}
-input{width:100%;padding:17px;border-radius:11px;border:1px solid #444;background:#0e0e11;color:#fff;font-size:18px;outline:none}
+input{width:100%;padding:17px;border-radius:11px;border:1px solid #555;background:rgba(8,8,11,.94);color:#fff;font-size:18px;outline:none}
+input:focus{border-color:#f04fa5;box-shadow:0 0 0 2px rgba(240,79,165,.18)}
 button{width:100%;border:0;border-radius:11px;background:#f04fa5;color:#fff;padding:18px;margin-top:14px;font-size:17px;font-weight:bold;cursor:pointer}
 button:disabled{opacity:.55;cursor:wait}
-.ayuda{font-size:13px;color:#888;margin:12px 0 0}
+.ayuda{font-size:13px;color:#aaa;margin:12px 0 0}
 #mensaje{margin-top:18px;line-height:1.5}
 .error{background:#351414;color:#ff9d9d;padding:15px;border-radius:10px}
-.ok{color:#64dc8b;font-weight:bold}
+.ok{color:#64dc8b;font-weight:bold;text-shadow:0 1px 4px #000}
 .resultados{margin-top:24px;display:none}
-.ticket{background:#17171b;border:1px solid #333;border-radius:15px;padding:20px;margin:14px 0}
+.ticket{
+  background:rgba(18,18,22,.92);
+  border:1px solid rgba(255,255,255,.20);
+  border-radius:15px;
+  padding:20px;
+  margin:14px 0;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
 .codigo{font-size:25px;font-weight:bold;color:#f04fa5;margin-bottom:12px}
 .descargar{display:block;text-decoration:none;background:#fff;color:#111;padding:15px;border-radius:10px;font-weight:bold}
-.aviso{margin-top:25px;color:#aaa;font-size:13px;line-height:1.5}
+.aviso{margin-top:25px;color:#ddd;font-size:13px;line-height:1.5;text-shadow:0 2px 7px #000}
+@media(max-width:600px){
+  body{background-attachment:scroll;background-position:center top}
+  .logo{max-height:175px}
+}
 </style>
 </head>
 <body>
 <div class="app">
+  <img class="logo" src="./logo.jpg" alt="Cadena Perpetua">
   <div class="marca">INVITACIONES DIGITALES</div>
-  <h1>CADENA PERPETUA</h1>
   <h2>San Juan</h2>
   <div class="info">
     Ingresá tu WhatsApp y recibí tus 2 invitaciones.<br>
