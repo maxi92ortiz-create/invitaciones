@@ -1,8 +1,22 @@
 <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Invitaciones | Cadena Perpetua</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;color:#fff;font-family:Arial,sans-serif}
-body{padding:20px 14px 30px;background:#080808 url("./fondo.jpg") center top/cover fixed no-repeat}
-body:before{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.78) 55%,rgba(0,0,0,.9))}
+body{
+  padding:20px 14px 30px;
+  background-color:#080808;
+  background-image:url("./fondo.jpg");
+  background-position:center top;
+  background-size:100% auto;
+  background-repeat:no-repeat;
+  background-attachment:scroll;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:linear-gradient(rgba(0,0,0,.12),rgba(0,0,0,.28) 55%,rgba(0,0,0,.52));
+}
 .app{width:100%;max-width:540px;margin:auto;text-align:center}.logo{display:block;width:min(390px,90vw);max-height:190px;object-fit:contain;margin:0 auto;mix-blend-mode:screen}
 .marca{font-size:13px;letter-spacing:4px;color:#eee}h2{font-size:28px;margin:8px 0 18px;color:#f04fa5}.info{font-size:17px;font-weight:600;line-height:1.45;margin-bottom:22px;text-shadow:0 2px 8px #000}
 .panel,.ticket{background:rgba(10,10,13,.91);border:1px solid rgba(255,255,255,.24);box-shadow:0 12px 38px rgba(0,0,0,.58);backdrop-filter:blur(7px)}
@@ -13,7 +27,15 @@ button:disabled{opacity:.55}.ayuda{font-size:13px;color:#bbb;margin:12px 0 0}#me
 .resultados{margin-top:24px;display:none;background:rgba(7,7,9,.9);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:18px}.resultados>.ok{color:#f04fa5;font-size:18px}
 .ticket{border-radius:15px;padding:18px;margin:14px 0}.codigo{font-size:24px;font-weight:bold;color:#f04fa5;margin-bottom:12px}.descargar{display:block;text-decoration:none;background:#f04fa5;color:#fff;padding:15px;border-radius:10px;font-weight:bold}
 .aviso{margin-top:24px;color:#eee;font-size:13px;line-height:1.5;text-shadow:0 2px 7px #000}.evento{margin-top:25px;padding:14px 8px;border-top:1px solid rgba(240,79,165,.55);font-weight:bold;line-height:1.6;text-shadow:0 2px 7px #000}.rosa{color:#f04fa5}
-@media(max-width:600px){body{background-attachment:scroll;background-size:auto 100vh}.logo{max-height:165px}}
+@media(max-width:600px){
+  body{
+    background-size:100% auto;
+    background-position:center top;
+    background-attachment:scroll;
+  }
+  .logo{max-height:150px}
+  .panel{background:rgba(8,8,11,.94)}
+}
 </style></head><body><div class="app">
 <img class="logo" src="./logo.jpg" alt="Cadena Perpetua"><div class="marca">INVITACIONES DIGITALES</div><h2>SAN JUAN</h2>
 <div class="info">Ingresá tu WhatsApp y recibí tus 2 invitaciones.<br>Máximo 2 por número.</div>
